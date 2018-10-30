@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
-import HelloWorld from '@/components/HelloWorld'
+// 稿件统计
+import indexHome from '@/pages/home/indexHome'
 
 Vue.use(Router)
 
@@ -10,8 +10,8 @@ const router = new Router({
 	routes: [
 		{
 			path: '/',
-			name: 'HelloWorld',
-			component: HelloWorld
+			name: 'indexHome',
+			component: indexHome
 		}
 	]
 })
