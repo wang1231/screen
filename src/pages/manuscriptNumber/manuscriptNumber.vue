@@ -5,17 +5,18 @@
             <span v-for="item in dataNumber" class="data">
                 <span class="label">{{ item.label }}</span><span class="number">{{ item.number }}</span>
             </span>
+            <!-- 日历 -->
+            <calendar-date></calendar-date>
         </div>
         <!-- 第二模块 -->
         <div class="data-pancake clearfix">
             <div class="manuscript-library fl">
-                <button @click="aa()">弹框</button>
+                <div id="library" style="width:100%;height:550px;"></div>
             </div>
             <div class="manuscript-type fl">
-
+                <div id="type" style="width:100%;height:550px;"></div>
             </div>
         </div>
-
         <!-- 第三个模块 -->
         <div class="data-language">
             <span class="title">语种</span>
@@ -34,14 +35,28 @@
 
         <!-- 成品稿弹框 -->
         <finished-details :propsData="finishedData"></finished-details>
+        <!-- 社内报刊 -->
+        <newspaper-agency :propsData="newspaperData"></newspaper-agency>
+        <!-- 外电弹框 -->
+        <external-detailed :propsData="externalData"></external-detailed>
+        <!-- 待编库 -->
+        <library-detailed :propsData="libraryData"></library-detailed>
     </div>
 </template>
 
 <script>
     import finishedDetails from "@/pages/manuscriptNumber/components/finishedDetails"
+    import newspaperAgency from "@/pages/manuscriptNumber/components/newspaperAgency"
+    import externalDetailed from "@/pages/manuscriptNumber/components/externalDetailed"
+    import libraryDetailed from "@/pages/manuscriptNumber/components/libraryDetailed"
+    import calendarDate from "@/components/button/calendar/calendarDate"
     export default {
         components: {
-            finishedDetails
+            finishedDetails,
+            newspaperAgency,
+            externalDetailed,
+            libraryDetailed,
+            calendarDate
         },
         data () {
             return {
@@ -104,14 +119,444 @@
                 ],
                 // 成品弹框参数
                 finishedData: {
-                    visible: true
+                    visible: false
+                },
+                // 社内报刊
+                newspaperData: {
+                    visible: false
+                },
+                // 外电
+                externalData: {
+                    visible: false
+                },
+                // 待遍
+                libraryData: {
+                    visible: false
                 }
             }
         },
         methods: {
-            aa(){
-                this.finishedData.visible = true;
+            libraryInit(){
+                let library = this.$echarts.init(document.getElementById('library'));
+                let option = {
+                    title: {
+                        text: '稿件库',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        bottom: 10,
+                        left: 'center',
+                        data: ['外电', '成品库','报刊','待编库']
+                    },
+                    series: [
+                        {
+                            type: 'pie',
+                            radius: '50%',
+                            center: ['50%', '50%'],
+                            selectedMode: 'single',
+                            data: [
+                                {
+                                    value: 7882,
+                                    name: '外电',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#ffb743',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 2416,
+                                    name: '成品库',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#2694f7',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 6826,
+                                    name: '报刊',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#19f9f9',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 1184,
+                                    name: '待编库',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#c8ed2b',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                }
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ],
+                    color: ['#ffb743','#2694f7','#19f9f9','#c8ed2b']
+                };
+
+                library.setOption(option);
+            },
+            typeInit(){
+                let library = this.$echarts.init(document.getElementById('type'));
+                let option = {
+                    title: {
+                        text: '稿件类型',
+                        left: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        bottom: 10,
+                        left: 'center',
+                        data: ['文本', '图片','视频','音频','多媒体','图表','其他']
+                    },
+                    series: [
+                        {
+                            type: 'pie',
+                            radius: '50%',
+                            center: ['50%', '50%'],
+                            selectedMode: 'single',
+                            data: [
+                                {
+                                    value: 11136,
+                                    name: '文本',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#a6c72a',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 7405,
+                                    name: '图片',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#258eec',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 156,
+                                    name: '视频',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#7710fd',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 11,
+                                    name: '音频',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#18f0f0',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 783,
+                                    name: '多媒体',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#fd4f4f',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 42,
+                                    name: '图表',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#e4a43c',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    value: 3,
+                                    name: '其他',
+                                    label: {
+                                        formatter: [
+                                            '{title|{b}：{d}%}',
+                                            '{hr|}',
+                                            '{sunny|{c}}'
+                                        ].join('\n'),
+                                        borderColor: '#0b171c',
+                                        borderWidth: 1,
+                                        borderRadius: 5,
+                                        backgroundColor: '#000',
+                                        rich: {
+                                            title: {
+                                                backgroundColor: '#0d1d24',
+                                                color: '#bdf6ff',
+                                                fontSize: '22',
+                                                padding: [9,27]
+                                            },
+                                            sunny: {
+                                                color: '#15fb8f',
+                                                fontSize: '22',
+                                                backgroundColor: '#000',
+                                                width: '100%',
+                                                align: 'left',
+                                                padding: [9,27]
+                                            }
+                                        }
+                                    }
+                                }
+                            ],
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ],
+                    color: ['#a6c72a','#258eec','#7710fd','#18f0f0','#fd4f4f','#e4a43c','#15fb8f']
+                };
+
+                library.setOption(option);
             }
+        },
+        mounted(){
+            this.libraryInit();
+            this.typeInit();
         }
     }
 </script>
@@ -120,7 +565,7 @@
     .manu-script-number {
         padding: 20px 30px;
     }
-    /* 第二模块 */
+    /* 第一模块 */
     .manu-script-number .data-number {
         border: 2px solid #152a33;
         padding: 22px 10px;

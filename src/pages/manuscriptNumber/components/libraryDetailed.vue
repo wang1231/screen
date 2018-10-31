@@ -1,6 +1,6 @@
 <template>
-    <div class="finished-details">
-        <el-dialog title="成品详细信息 Product Detail" :visible.sync="propsData.visible" width="74%" :show-close="false">
+    <div class="library-detailed">
+        <el-dialog title="待编库详细信息 Library detailed to be compiled" :visible.sync="propsData.visible" width="74%" :show-close="false">
             <div class="main clearfix">
                 <div class="list fl">
                     <h2>实时稿件列表</h2>
@@ -50,68 +50,68 @@
 </script>
 
 <style>
-    .finished-details .el-dialog__header{
+    .library-detailed .el-dialog__header{
         background: #1d3a48;
         padding: 10px 25px;
     }
-    .finished-details .el-dialog__header .el-dialog__title{
+    .library-detailed .el-dialog__header .el-dialog__title{
         font-size: 27px;
         color: #afe6ef;
     }
-    .finished-details .el-dialog__body{
+    .library-detailed .el-dialog__body{
         padding: 40px 30px;
         background: #000a0c;
     }
-    .finished-details .main .list{
+    .library-detailed .main .list{
         width: 430px;
     }
-    .finished-details .main .list h2{
+    .library-detailed .main .list h2{
         font-size: 22px;
         color: #afe6ef;
         background: #1d3a48;
         padding: 12px 0;
         padding-left: 25px;
     }
-    .finished-details .main .list ul{
+    .library-detailed .main .list ul{
         margin-top: 20px;
     }
-    .finished-details .main .list li {
+    .library-detailed .main .list li {
         border: 1px solid #0b1c22;
         margin-top: 10px;
         padding: 10px 0;
         padding-left: 10px;
     }
-    .finished-details .main .list li span{
+    .library-detailed .main .list li span{
         font-size: 16px;
         color: #7aa3a9;
     }
-    .finished-details .main .type{
+    .library-detailed .main .type{
         margin-left: 40px;
     }
-    .finished-details .main .type > div{
+    .library-detailed .main .type > div{
         width: 210px;
         margin-right: 10px;
     }
-    .finished-details .main .type > div:nth-child(4){
+    .library-detailed .main .type > div:nth-child(4){
         margin-right: 0;
     }
-    .finished-details .main .type h2 {
+    .library-detailed .main .type h2 {
         font-size: 22px;
         color: #afe6ef;
         background: #1d3a48;
         padding: 12px 0;
         padding-left: 20px;
     }
-    .finished-details .main .type ul{
+    .library-detailed .main .type ul{
         margin-top: 20px;
     }
-    .finished-details .main .type li {
+    .library-detailed .main .type li {
         border: 1px solid #0b1c22;
         padding: 10px 0;
         text-align: center;
         margin-top: 10px;
     }
-    .finished-details .main .type li span{
+    .library-detailed .main .type li span{
         font-size: 16px;
         color: #7aa3a9;
     }

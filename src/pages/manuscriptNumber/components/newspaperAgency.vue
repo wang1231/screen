@@ -1,32 +1,15 @@
 <template>
-    <div class="finished-details">
-        <el-dialog title="成品详细信息 Product Detail" :visible.sync="propsData.visible" width="74%" :show-close="false">
+    <div class="newspaper-agency">
+        <el-dialog title="社内报刊详细信息 Inside the newspaper detailed information" :visible.sync="propsData.visible" width="51%" :show-close="false">
             <div class="main clearfix">
                 <div class="list fl">
                     <h2>实时稿件列表</h2>
-                    <ul>
-                        <li>
-                            <span>01 贵州龙里：搬迁搬出好生活</span>
-                        </li>
-                    </ul>
                 </div>
                 <div class="type fl clearfix">
                     <div class="fl">
                         <h2>按类型分</h2>
                         <ul>
                             <li><span>文本</span></li>
-                        </ul>
-                    </div>
-                    <div class="fl">
-                        <h2>今日增量</h2>
-                        <ul>
-                            <li><span>418</span></li>
-                        </ul>
-                    </div>
-                    <div class="fl">
-                        <h2>按语种分</h2>
-                        <ul>
-                            <li><span>中文</span></li>
                         </ul>
                     </div>
                     <div class="fl">
@@ -50,68 +33,70 @@
 </script>
 
 <style>
-    .finished-details .el-dialog__header{
+    .newspaper-agency .el-dialog__header{
         background: #1d3a48;
         padding: 10px 25px;
     }
-    .finished-details .el-dialog__header .el-dialog__title{
+    .newspaper-agency .el-dialog__header .el-dialog__title{
         font-size: 27px;
         color: #afe6ef;
     }
-    .finished-details .el-dialog__body{
+    .newspaper-agency .el-dialog__body{
         padding: 40px 30px;
         background: #000a0c;
     }
-    .finished-details .main .list{
+    
+
+    .newspaper-agency .main .list{
         width: 430px;
     }
-    .finished-details .main .list h2{
+    .newspaper-agency .main .list h2{
         font-size: 22px;
         color: #afe6ef;
         background: #1d3a48;
         padding: 12px 0;
         padding-left: 25px;
     }
-    .finished-details .main .list ul{
+    .newspaper-agency .main .list ul{
         margin-top: 20px;
     }
-    .finished-details .main .list li {
+    .newspaper-agency .main .list li {
         border: 1px solid #0b1c22;
         margin-top: 10px;
         padding: 10px 0;
         padding-left: 10px;
     }
-    .finished-details .main .list li span{
+    .newspaper-agency .main .list li span{
         font-size: 16px;
         color: #7aa3a9;
     }
-    .finished-details .main .type{
+    .newspaper-agency .main .type{
         margin-left: 40px;
     }
-    .finished-details .main .type > div{
+    .newspaper-agency .main .type > div{
         width: 210px;
         margin-right: 10px;
     }
-    .finished-details .main .type > div:nth-child(4){
+    .newspaper-agency .main .type > div:nth-child(2){
         margin-right: 0;
     }
-    .finished-details .main .type h2 {
+    .newspaper-agency .main .type h2 {
         font-size: 22px;
         color: #afe6ef;
         background: #1d3a48;
         padding: 12px 0;
         padding-left: 20px;
     }
-    .finished-details .main .type ul{
+    .newspaper-agency .main .type ul{
         margin-top: 20px;
     }
-    .finished-details .main .type li {
+    .newspaper-agency .main .type li {
         border: 1px solid #0b1c22;
         padding: 10px 0;
         text-align: center;
         margin-top: 10px;
     }
-    .finished-details .main .type li span{
+    .newspaper-agency .main .type li span{
         font-size: 16px;
         color: #7aa3a9;
     }
