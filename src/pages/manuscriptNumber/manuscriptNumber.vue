@@ -3,10 +3,10 @@
         <!-- 第一模块 -->
         <div class="data-number">
             <span v-for="item in dataNumber" class="data">
-                <span class="label">{{ item.label }}</span><span class="number">{{ item.number }}</span>
+                <span class="label">{{ item.label }}</span><span class="number">{{ item.value }}</span>
             </span>
             <!-- 日历 -->
-            <calendar-date></calendar-date>
+            <calendar-date @selectYear="selectYear" @selectMonth="selectMonth" @selectDay="selectDay"></calendar-date>
         </div>
         <!-- 第二模块 -->
         <div class="data-pancake clearfix">
@@ -22,13 +22,13 @@
             <span class="title">语种</span>
             <div v-for="item in dataLanguage" class="language">
                 <span class="language-type">
-                    <span class="languageName">{{ item.title }}</span>
-                    <span class="languageAllNumber">{{ item.number }}</span>
+                    <span class="languageName">{{ item.title | titleFilter }}稿件量</span>
+                    <span class="languageAllNumber">{{ item.total }}</span>
                     <span class="bg"></span>
                 </span>
                 <span class="date">
                     <span class="dateName">日增量</span>
-                    <span class="dateAllNumber">{{ item.dateNumber }}</span>
+                    <span class="dateAllNumber">{{ item.increment }}</span>
                 </span>
             </div>
         </div>
@@ -64,59 +64,18 @@
                 dataNumber: [
                     {
                         label: "今日数据量",
-                        number: "18,308 条"
+                        value: ""
                     },
                     {
                         label: "历史数据量",
-                        number: "61,728,778 条"
+                        value: ""
                     },
                     {
                         label: "总存储量",
-                        number: "93,296 条"
+                        value: ""
                     }
                 ],
-                dataLanguage: [
-                    {
-                        title: '葡文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '法文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '阿文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '英文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '俄文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '中文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '西文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    },
-                    {
-                        title: '日文稿件量',
-                        number: "158,702",
-                        dateNumber: '17'
-                    }
-                ],
+                dataLanguage: [],
                 // 成品弹框参数
                 finishedData: {
                     visible: false
@@ -132,6 +91,21 @@
                 // 待遍
                 libraryData: {
                     visible: false
+                },
+                mediaType: {
+                    Text: 0,            // 文本
+                    Photo: 0,           // 图片
+                    Video: 0,           // 视频
+                    Audio: 0,           // 音频
+                    Graph: 0,           // 图表
+                    MultiMedia: 0,      // 多媒体
+                    otherType: 0        // 其他
+                },
+                mediaLis: {
+                    finished: 0,            // 成品稿
+                    pending: 0,             // 待编稿
+                    foreign: 0,             // 外电稿
+                    press: 0                // 社内报刊
                 }
             }
         },
@@ -160,7 +134,7 @@
                             selectedMode: 'single',
                             data: [
                                 {
-                                    value: 7882,
+                                    value: this.mediaLis.foreign,
                                     name: '外电',
                                     label: {
                                         formatter: [
@@ -191,7 +165,7 @@
                                     }
                                 },
                                 {
-                                    value: 2416,
+                                    value: this.mediaLis.finished,
                                     name: '成品库',
                                     label: {
                                         formatter: [
@@ -222,7 +196,7 @@
                                     }
                                 },
                                 {
-                                    value: 6826,
+                                    value: this.mediaLis.press,
                                     name: '报刊',
                                     label: {
                                         formatter: [
@@ -253,7 +227,7 @@
                                     }
                                 },
                                 {
-                                    value: 1184,
+                                    value: this.mediaLis.pending,
                                     name: '待编库',
                                     label: {
                                         formatter: [
@@ -322,7 +296,7 @@
                             selectedMode: 'single',
                             data: [
                                 {
-                                    value: 11136,
+                                    value: this.mediaType.Text,
                                     name: '文本',
                                     label: {
                                         formatter: [
@@ -353,7 +327,7 @@
                                     }
                                 },
                                 {
-                                    value: 7405,
+                                    value: this.mediaType.Photo,
                                     name: '图片',
                                     label: {
                                         formatter: [
@@ -384,7 +358,7 @@
                                     }
                                 },
                                 {
-                                    value: 156,
+                                    value: this.mediaType.Video,
                                     name: '视频',
                                     label: {
                                         formatter: [
@@ -415,7 +389,7 @@
                                     }
                                 },
                                 {
-                                    value: 11,
+                                    value: this.mediaType.Audio,
                                     name: '音频',
                                     label: {
                                         formatter: [
@@ -446,7 +420,7 @@
                                     }
                                 },
                                 {
-                                    value: 783,
+                                    value: this.mediaType.MultiMedia,
                                     name: '多媒体',
                                     label: {
                                         formatter: [
@@ -477,7 +451,7 @@
                                     }
                                 },
                                 {
-                                    value: 42,
+                                    value: this.mediaType.Graph,
                                     name: '图表',
                                     label: {
                                         formatter: [
@@ -508,7 +482,7 @@
                                     }
                                 },
                                 {
-                                    value: 3,
+                                    value: this.mediaType.otherType,
                                     name: '其他',
                                     label: {
                                         formatter: [
@@ -552,11 +526,151 @@
                 };
 
                 library.setOption(option);
+            },
+            // 年
+            selectYear(year){
+                console.log('年',year);
+            },
+            // 月
+            selectMonth(year, month){
+                console.log('年',year,'月',month);
+            },
+            selectDay(year, month, day){
+                console.log('年',year,'月',month,'日',day);
+            },
+            // 页面初始化
+            pageInit(){
+                // 页面调用1.1接口
+                let date = this.$Fn.formatDate(new Date(), 'yyyy-MM-dd');
+                console.log('当前日期',date);
+                // 1.1 接口
+                this.$api.getLanguageMediaTypeD(date).then((res) => {
+                    console.log('1.1接口',res);
+                    if (res && res.code == "1"){
+                        this.getMediaType(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                });
+
+                // 1.2接口
+                this.$api.getLanguageLibD(date).then((res) => {
+                    console.log('1.2接口',res);
+                    if (res && res.code == "1"){
+                        // 今日总部条数
+                        this.dataNumber[0].value = res.data.amount.increment;
+                        this.dataNumber[1].value = res.data.amount.totalCount;
+                        this.dataNumber[2].value = res.data.amount.storage;
+
+                        this.getLanguageLib(res.data);
+
+                        // 语种获取
+
+                        //
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                })
+            },
+            // 1.1 整理第二个数据的函数
+            getMediaType(object){
+                let mediaType = [];
+                for (let i in object){
+                    mediaType.push(object[i]);
+                }
+                // 取出每一个类型的数据
+                // text 文本
+                this.mediaType.Text = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.Text
+                }, 0);
+                // photo 图片
+                this.mediaType.Photo = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.Photo
+                }, 0);
+                // Video 视频
+                this.mediaType.Video = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.Video
+                }, 0);
+                // Audio 音频
+                this.mediaType.Audio = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.Audio
+                }, 0);
+                // Graph 图表
+                this.mediaType.Graph = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.Graph
+                }, 0);
+                // MultiMedia 多媒体
+                this.mediaType.MultiMedia = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.MultiMedia
+                }, 0);
+                // otherType 其他
+                this.mediaType.otherType = mediaType.reduce((total, currentValue) => {
+                    return total + currentValue.otherType
+                }, 0);
+
+                console.log('第二个图数据已经整理完成',this.mediaType);
+                // 调用第二个统计图
+                this.typeInit();
+            },
+            // 1.2 整理第一个数据的函数
+            getLanguageLib(object){
+                let languageLib = [];
+                for (let i in object){
+                    if (i != "amount"){
+                        object[i].title = i;
+
+                        languageLib.push(object[i]);
+                    }
+                }
+                this.dataLanguage = languageLib;
+                console.log('1.2整理',languageLib);
+                // 取出每一个 稿件
+                // 成品稿
+                this.mediaLis.finished = languageLib.reduce((total, currentValue) => {
+                    return total + currentValue.resFinished
+                }, 0);
+                // 待编稿
+                this.mediaLis.pending = languageLib.reduce((total, currentValue) => {
+                    return total + currentValue.resPending
+                }, 0);
+                // 外电稿
+                this.mediaLis.foreign = languageLib.reduce((total, currentValue) => {
+                    return total + currentValue.resForeign
+                }, 0);
+                // 社内
+                this.mediaLis.press = languageLib.reduce((total, currentValue) => {
+                    return total + currentValue.resPress
+                }, 0);
+
+                console.log('1.2整理后的值',this.mediaLis);
+
+                this.libraryInit();
+            },
+            // 1.2 整理语种函数
+            getLanguageData(object){
+                for (let i in object){
+    
+                }
             }
         },
         mounted(){
-            this.libraryInit();
-            this.typeInit();
+            this.pageInit();
+        },
+        filters: {
+            titleFilter(value){
+                let language = {
+                    'fr': "法文",
+                    'en': "英文",
+                    'ru': "俄文",
+                    'zh-CN': "中文",
+                    'es': "西文",
+                    'ja': "日文",
+                    'pt': "葡文",
+                    'ar': "阿文"
+                }
+
+                return language[value];
+            }
         }
     }
 </script>
