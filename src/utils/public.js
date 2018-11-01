@@ -28,7 +28,7 @@ export function padDate(value) {
 // 判断是否是闰年
 export function isLeapYear(Year) {
   if (((Year % 4) == 0) && ((Year % 100) != 0) || ((Year % 400) == 0)) {
-    return (true);
+    return true;
   } else {
     return false;
   }
