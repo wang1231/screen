@@ -29,12 +29,26 @@ const getLanguageLibM = (param) => {
 const getLanguageLibD = (param) => {
     return req.get(`/data/screen/doc/getLanguageLib?yearMonthDay=${param}`);
 }
-
+// 最新实时动态
+const getDocList = (param) => {
+    return req.get(`/data/screen/doc/getDocList?libId=${param}`);
+}
+// 外电+ 报刊库 当日数据量
+const getPressAndForeign = (param) => {
+    return req.get(`/data/screen/lib/getPressAndForeign?libId=${param}`);
+}
+// 待编库 + 成品库当日数据量
+const getFinishedAndPending = (param) => {
+    return req.get(`/data/screen/lib/getFinishedAndPending?libId=${param}`);
+}
 export default {
     getLanguageMediaTypeY,
     getLanguageMediaTypeM,
     getLanguageMediaTypeD,
     getLanguageLibY,
     getLanguageLibM,
-    getLanguageLibD
+    getLanguageLibD,
+    getDocList,
+    getPressAndForeign,
+    getFinishedAndPending
 }

@@ -94,6 +94,10 @@ export default {
 </script>
 
 <style>
+    .el-dropdown-menu{
+        border: 1px solid #000a0c; 
+        background-color: #000a0c;
+    }
     .calendar .el-dropdown-link{
         font-size: 27px;
         color: #ace2ec;

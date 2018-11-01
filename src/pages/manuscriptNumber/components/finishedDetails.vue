@@ -5,8 +5,8 @@
                 <div class="list fl">
                     <h2>实时稿件列表</h2>
                     <ul>
-                        <li>
-                            <span>01 贵州龙里：搬迁搬出好生活</span>
+                        <li v-for="(item,index) in propsData.realTime">
+                            <span>{{ index }} {{ item.headLine }}</span>
                         </li>
                     </ul>
                 </div>
@@ -14,25 +14,25 @@
                     <div class="fl">
                         <h2>按类型分</h2>
                         <ul>
-                            <li><span>文本</span></li>
+                            <li v-for="item in propsData.mediaType"><span>{{ item.mediaType | mediaTypeFilter }}</span></li>
                         </ul>
                     </div>
                     <div class="fl">
                         <h2>今日增量</h2>
                         <ul>
-                            <li><span>418</span></li>
+                            <li v-for="item in propsData.mediaType"><span>{{ item.increment }}</span></li>
                         </ul>
                     </div>
                     <div class="fl">
                         <h2>按语种分</h2>
                         <ul>
-                            <li><span>中文</span></li>
+                            <li v-for="item in propsData.language"><span>{{ item.languageId | languageFilter }}</span></li>
                         </ul>
                     </div>
                     <div class="fl">
                         <h2>今日增量</h2>
                         <ul>
-                            <li><span>418</span></li>
+                            <li v-for="item in propsData.language"><span>{{ item.increment }}</span></li>
                         </ul>
                     </div>
                 </div>
@@ -45,6 +45,34 @@
     export default {
         props: {
             propsData: Object
+        },
+        filters: {
+            languageFilter(value){
+                let language = {
+                    'fr': "法文",
+                    'en': "英文",
+                    'ru': "俄文",
+                    'zh-CN': "中文",
+                    'es': "西文",
+                    'ja': "日文",
+                    'pt': "葡文",
+                    'ar': "阿文"
+                }
+
+                return language[value];
+            },
+            mediaTypeFilter(value){
+                let mediaType = {
+                    'Text': "文本",
+                    'Photo': "图片",
+                    'Audio': "音频",
+                    'Graph': "图表",
+                    'MultiMedia': "多媒体",
+                    'Video': "视频"
+                }
+
+                return mediaType[value];
+            }
         }
     }
 </script>
@@ -61,6 +89,22 @@
     .finished-details .el-dialog__body{
         padding: 40px 30px;
         background: #000a0c;
+        height: 700px;
+        overflow: hidden;
+        overflow-y: auto;
+    }
+
+    .finished-details .el-dialog__body::-webkit-scrollbar{
+        width: 8px;
+        height: 1px;
+        background: #000a0c;
+    }
+    .finished-details .el-dialog__body::-webkit-scrollbar-thumb{
+        border-radius: 10px;
+        background: #5f8086;
+    }
+    .finished-details .el-dialog__body::-webkit-scrollbar-track{
+        border-radius: 10px;
     }
     .finished-details .main .list{
         width: 430px;
@@ -80,6 +124,9 @@
         margin-top: 10px;
         padding: 10px 0;
         padding-left: 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
     .finished-details .main .list li span{
         font-size: 16px;

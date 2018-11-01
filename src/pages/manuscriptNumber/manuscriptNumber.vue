@@ -78,19 +78,29 @@
                 dataLanguage: [],
                 // 成品弹框参数
                 finishedData: {
-                    visible: false
+                    visible: false,
+                    language: [],
+                    mediaType: [],
+                    realTime: []
                 },
                 // 社内报刊
                 newspaperData: {
-                    visible: false
+                    visible: false,
+                    external: [],
+                    realTime: []
                 },
                 // 外电
                 externalData: {
-                    visible: false
+                    visible: false,
+                    external: [],
+                    realTime: []
                 },
                 // 待遍
                 libraryData: {
-                    visible: false
+                    visible: false,
+                    language: [],
+                    mediaType: [],
+                    realTime: []
                 },
                 mediaType: {
                     Text: 0,            // 文本
@@ -106,7 +116,9 @@
                     pending: 0,             // 待编稿
                     foreign: 0,             // 外电稿
                     press: 0                // 社内报刊
-                }
+                },
+                // 轮询
+                timeRefresh: null
             }
         },
         methods: {
@@ -115,7 +127,10 @@
                 let option = {
                     title: {
                         text: '稿件库',
-                        left: 'center'
+                        left: 'center',
+                        textStyle: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         trigger: 'item',
@@ -124,7 +139,10 @@
                     legend: {
                         bottom: 10,
                         left: 'center',
-                        data: ['外电', '成品库','报刊','待编库']
+                        data: ['外电', '成品库','报刊','待编库'],
+                        textStyle: {
+                            color: '#ffffff'
+                        }
                     },
                     series: [
                         {
@@ -271,13 +289,117 @@
                 };
 
                 library.setOption(option);
+                // 监听事件
+                // let _this = this;
+                library.on('click',(params) => {
+                    let realTime = 0;
+                    if (params.name == "外电"){
+                        this.externalData.visible = true;
+                        realTime = 4;
+                        this.$api.getPressAndForeign(realTime).then((res) => {
+                            console.log('外电',res);
+                            if (res && res.code == '1'){
+                                this.externalData.external = res.data;
+                            } else {
+                                this.$message.error(res.message);
+                            }
+                        })
+                    } else if (params.name == "成品库"){
+                        this.finishedData.visible = true;
+                        realTime = 3;
+                        this.$api.getFinishedAndPending(realTime).then((res) => {
+                            if (res && res.code == '1'){
+                                console.log('成品库', res);
+                                // 整理数据
+                                // 语种数据整理
+                                let language = [];
+                                for (let i in res.data.language) {
+                                    res.data.language[i].languageId = i;
+
+                                    language.push(res.data.language[i]);
+                                }
+                                this.finishedData.language = language;
+                                console.log('语种数据',language);
+                                // 类型数据 整理
+                                let mediaType = [];
+                                for (let i in res.data.mediaType) {
+                                    res.data.mediaType[i].mediaType = i;
+
+                                    mediaType.push(res.data.mediaType[i]);
+                                }
+                                this.finishedData.mediaType = mediaType;
+                                console.log('类型数据',mediaType);
+                            } else {
+                                this.$message.error(res.message);
+                            }
+                        })
+                    } else if (params.name == "报刊"){
+                        this.newspaperData.visible = true;
+                        realTime = 6;
+                        this.$api.getPressAndForeign(realTime).then((res) => {
+                            console.log('报刊',res);
+                            if (res && res.code == '1'){
+                                this.newspaperData.external = res.data;
+                            } else {
+                                this.$message.error(res.message);
+                            }
+                        })
+                    } else if (params.name == "待编库"){
+                        this.libraryData.visible = true;
+                        realTime = 1;
+                        this.$api.getFinishedAndPending(realTime).then((res) => {
+                            console.log('待编库', res);
+                            if (res && res.code == '1'){
+                                // 整理数据
+                                // 语种数据整理
+                                let language = [];
+                                for (let i in res.data.language) {
+                                    res.data.language[i].languageId = i;
+
+                                    language.push(res.data.language[i]);
+                                }
+                                this.libraryData.language = language;
+                                console.log('语种数据',language);
+                                // 类型数据 整理
+                                let mediaType = [];
+                                for (let i in res.data.mediaType) {
+                                    res.data.mediaType[i].mediaType = i;
+
+                                    mediaType.push(res.data.mediaType[i]);
+                                }
+                                this.libraryData.mediaType = mediaType;
+                                console.log('类型数据',mediaType);
+                            } else {
+                                this.$message.error(res.message);
+                            }
+                        })
+                    }
+                    // 实时动态数据 ==========================
+                    this.$api.getDocList(realTime).then((res) => {
+                        console.log('实时动态',res);
+                        if (res && res.code == '1' && realTime == 4){
+                            this.externalData.realTime = res.data;  // 外电
+                        } else if (res && res.code == '1' && realTime == 6) {
+                            this.newspaperData.realTime = res.data; // 报刊
+                        } else if (res && res.code == '1' && realTime == 1){
+                            this.libraryData.realTime = res.data;   // 待编
+                        } else if (res && res.code == '1' && realTime == 3) {
+                            this.finishedData.realTime = res.data;   // 成品
+                        } else {
+                            this.$message.error(res.message);
+                        }
+                    })
+                });
             },
             typeInit(){
                 let library = this.$echarts.init(document.getElementById('type'));
                 let option = {
                     title: {
                         text: '稿件类型',
-                        left: 'center'
+                        left: 'center',
+                        textStyle: {
+                            color: '#ffffff'
+                        }
                     },
                     tooltip: {
                         trigger: 'item',
@@ -286,7 +408,10 @@
                     legend: {
                         bottom: 10,
                         left: 'center',
-                        data: ['文本', '图片','视频','音频','多媒体','图表','其他']
+                        data: ['文本', '图片','视频','音频','多媒体','图表','其他'],
+                        textStyle: {
+                            color: '#ffffff'
+                        }
                     },
                     series: [
                         {
@@ -294,6 +419,7 @@
                             radius: '50%',
                             center: ['50%', '50%'],
                             selectedMode: 'single',
+                            avoidLabelOverlap: true,
                             data: [
                                 {
                                     value: this.mediaType.Text,
@@ -520,6 +646,13 @@
                                     shadowColor: 'rgba(0, 0, 0, 0.5)'
                                 }
                             }
+                            // labelLine: {
+                            //     normal: {
+                            //         length: 10,
+                            //         length2: 10,
+                            //         smooth: true
+                            //     }
+                            // }
                         }
                     ],
                     color: ['#a6c72a','#258eec','#7710fd','#18f0f0','#fd4f4f','#e4a43c','#15fb8f']
@@ -530,13 +663,81 @@
             // 年
             selectYear(year){
                 console.log('年',year);
+                // 1.1 接口
+                this.$api.getLanguageMediaTypeY(year).then((res) => {
+                    console.log('选择年',res);
+                    if (res && res.code == '1'){
+                        this.getMediaType(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                });
+                // 1.2接口
+                this.$api.getLanguageLibY(year).then((res) => {
+                    console.log('选择年',res);
+                    if (res && res.code == '1'){
+                        this.dataNumber[0].value = res.data.amount.increment;
+                        this.dataNumber[1].value = res.data.amount.totalCount;
+                        this.dataNumber[2].value = res.data.amount.storage;
+
+                        this.getLanguageLib(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                })
             },
             // 月
             selectMonth(year, month){
-                console.log('年',year,'月',month);
+                let reqData = `${year}-${month}`;
+                console.log('月',reqData);
+                // 1.1 接口
+                this.$api.getLanguageMediaTypeM(reqData).then((res) => {
+                    console.log('选择月',res);
+                    if (res && res.code == '1'){
+                        this.getMediaType(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                });
+                // 1.2接口
+                this.$api.getLanguageLibM(reqData).then((res) => {
+                    console.log('选择月',res);
+                    if (res && res.code == '1'){
+                        this.dataNumber[0].value = res.data.amount.increment;
+                        this.dataNumber[1].value = res.data.amount.totalCount;
+                        this.dataNumber[2].value = res.data.amount.storage;
+
+                        this.getLanguageLib(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                })
             },
             selectDay(year, month, day){
-                console.log('年',year,'月',month,'日',day);
+                let reqData = `${year}-${month}-${day}`;
+                console.log('日',reqData);
+                // 1.1 接口
+                this.$api.getLanguageMediaTypeD(reqData).then((res) => {
+                    console.log('选择日',res);
+                    if (res && res.code == '1'){
+                        this.getMediaType(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                });
+                // 1.2接口
+                this.$api.getLanguageLibD(reqData).then((res) => {
+                    console.log('选择日',res);
+                    if (res && res.code == '1'){
+                        this.dataNumber[0].value = res.data.amount.increment;
+                        this.dataNumber[1].value = res.data.amount.totalCount;
+                        this.dataNumber[2].value = res.data.amount.storage;
+
+                        this.getLanguageLib(res.data);
+                    } else {
+                        this.$message.error(res.message);
+                    }
+                })
             },
             // 页面初始化
             pageInit(){
@@ -563,10 +764,6 @@
                         this.dataNumber[2].value = res.data.amount.storage;
 
                         this.getLanguageLib(res.data);
-
-                        // 语种获取
-
-                        //
                     } else {
                         this.$message.error(res.message);
                     }
@@ -646,15 +843,19 @@
 
                 this.libraryInit();
             },
-            // 1.2 整理语种函数
-            getLanguageData(object){
-                for (let i in object){
-    
-                }
+            // 轮询调接口 可配置时间
+            realTimeRefresh(){
+                this.timeRefresh = setInterval(() => {
+                    this.pageInit();
+                    clearInterval(this.timeRefresh);
+                    this.realTimeRefresh();
+                }, this.refreshTime);
             }
         },
         mounted(){
             this.pageInit();
+
+            this.realTimeRefresh();
         },
         filters: {
             titleFilter(value){
@@ -671,6 +872,13 @@
 
                 return language[value];
             }
+        },
+        computed: {
+            refreshTime(){
+                let refreshTime = BM_config.refreshTime;
+                refreshTime = refreshTime * 60 * 1000;
+                return refreshTime;
+            }
         }
     }
 </script>
@@ -678,6 +886,7 @@
 <style scoped>
     .manu-script-number {
         padding: 20px 30px;
+        background: url('./images/bg.png');
     }
     /* 第一模块 */
     .manu-script-number .data-number {
