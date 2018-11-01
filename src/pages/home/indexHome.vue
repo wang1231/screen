@@ -13,20 +13,29 @@
 <script>
     import navBar from '@/pages/components/nav/navBar';
     import manuscriptNumber from "@/pages/manuscriptNumber/manuscriptNumber"
+    import ManuscriptChart from '@/pages/manuscriptChart/manuscriptChart'
     export default {
         components: {
             navBar,
-            manuscriptNumber
+            manuscriptNumber,
+            ManuscriptChart
         },
         data () {
             return {
-                views: manuscriptNumber
+                views: manuscriptNumber,
+                viewsValue: "manuscriptNumber"
             }
         },
         methods: {
             // 切换视频层
             switchView(){
-
+                if (this.viewsValue == "manuscriptNumber"){
+                    this.views = ManuscriptChart;
+                    this.viewsValue = "ManuscriptChart";
+                } else {
+                    this.views = manuscriptNumber;
+                    this.viewsValue = "manuscriptNumber";
+                }
             }
 
         }
