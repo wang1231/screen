@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import HelloWorld from '@/components/HelloWorld'
+//import HelloWorld from '@/components/HelloWorld'
+import ManuscriptChart from '@/pages/manuscriptChart/manuscriptChart'
 
 Vue.use(Router)
 
@@ -10,8 +11,8 @@ const router = new Router({
 	routes: [
 		{
 			path: '/',
-			name: 'HelloWorld',
-			component: HelloWorld
+			name: 'ManuscriptChart',
+			component: ManuscriptChart
 		}
 	]
 })

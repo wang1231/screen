@@ -13,7 +13,6 @@ import { store } from './store/index'
 import api from './server/server.js'
 // 全局公共函数
 import $Fn from './utils/public'
-
 Vue.config.productionTip = false
 Vue.prototype.$api = api;
 Vue.prototype.$Fn = $Fn;
