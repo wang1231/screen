@@ -16,8 +16,8 @@
     </div>
   </div>
 </template>
-
 <script>
+  import { numberGrow } from "../../utils/public";
   export default {
     name: "chart-header",
     data() {
@@ -25,27 +25,32 @@
         users: {
           usersLeft: {
             name: '社内用户量',
-            value: ''
+            value: {
+              type: Number
+            }
           },
           usersRight: {
             name: '社外用户量',
-            value: ''
+            value: {
+              type: Number
+            }
           }
         }
       }
     },
      methods: {
-      _getUser(){
+       _getUser(){
         this.$api.getUser().then(res => {
           this.users.usersLeft.value = res.data.sheNei;
           this.users.usersRight.value = res.data.sheWai;
+          /*numberGrow(this.$refs.wrap,this.users.usersRight.value);*/
           this.timer = setTimeout(() => {
             this._getUser();
           },60 * 1000)
         })
       }
-     } ,
-    mounted(){
+     },
+    mounted() {
       this._getUser();
     },
     beforeDestroy(){
@@ -90,7 +95,7 @@
             width: 60%;
             line-height: 50px;
             text-align: left;
-            padding-left: 10px;
+            padding-left: 50px;
             box-sizing: border-box;
           }
         }
@@ -121,7 +126,7 @@
             width: 60%;
             line-height: 50px;
             text-align: left;
-            padding-left: 10px;
+            padding-left: 50px;
             box-sizing: border-box;
           }
         }

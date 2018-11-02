@@ -863,7 +863,6 @@
         },
         mounted(){
             this.pageInit();
-
             this.realTimeRefresh();
         },
         filters: {
@@ -895,7 +894,11 @@
                 refreshTime = refreshTime * 60 * 1000;
                 return refreshTime;
             }
-        }
+        },
+        beforeDestroy(){
+          console.log('kkkfkkkkf')
+          clearInterval(this.timeRefresh)
+      }
     }
 </script>
 

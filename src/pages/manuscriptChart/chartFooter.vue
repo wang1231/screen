@@ -22,7 +22,7 @@
             <p>下载的稿件</p></div>
           <div class="right">
             <ul>
-              <li v-for="item in downLoadData" :id="item.id"><em></em>{{item.headLine}}</li>
+              <li v-for="item in downData" :id="item.id"><em></em>{{item.headLine}}</li>
             </ul>
           </div>
         </div>
@@ -63,7 +63,7 @@
       return {
         serverData: [],
         visitData: [],
-        downLoadData: []
+        downData: []
       }
     },
     methods: {

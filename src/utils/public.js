@@ -60,9 +60,31 @@ function cycleNumber(value) {
   }
   return CN
 }
+// 数字动画
+export function numberGrow (ele,value) {
+  console.log(ele)
+  let stepFloat = (value * 10) / (2 * 1000);
+  let step = parseInt(stepFloat)
+  let current = 0
+  let start = 0
+  let t = setInterval(function () {
+    start += step
+    if (start > value) {
+      clearInterval(t)
+      start = value
+      t = null
+    }
+    if (current === start) {
+      return
+    }
+    current = start
+    ele.innerHTML = current.toString().replace(/(\d)(?=(?:\d{3}[+]?)+$)/g, '$1,')
+  }, 10)
+}
 export default {
   formatDate,
   padDate,
   isLeapYear,
-  someDay
+  someDay,
+  numberGrow
 }
