@@ -1,6 +1,6 @@
 <template>
     <div class="newspaper-agency">
-        <el-dialog title="社内报刊详细信息 Inside the newspaper detailed information" :visible.sync="propsData.visible" width="51%" :show-close="false">
+        <el-dialog title="社内报刊详细信息 Inside the newspaper detailed information" :visible.sync="propsData.visible" :show-close="false">
             <div class="main clearfix">
                 <div class="list fl">
                     <h2>最新稿件列表</h2>
@@ -38,6 +38,9 @@
 </script>
 
 <style>
+    .newspaper-agency .el-dialog{
+        width: 970px;
+    }
     .newspaper-agency .el-dialog__header{
         background: #1d3a48;
         padding: 10px 25px;

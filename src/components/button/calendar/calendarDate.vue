@@ -94,6 +94,9 @@ export default {
 </script>
 
 <style>
+    .dropdown{
+        width: 352px;
+    }
     .el-dropdown-menu{
         border: 1px solid #000a0c; 
         background-color: #000a0c;
