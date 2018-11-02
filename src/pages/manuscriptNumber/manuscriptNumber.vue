@@ -928,7 +928,7 @@
     /* 第二模块 */
     .manu-script-number .data-pancake{
         margin-top: 30px;
-        
+
     }
     .manu-script-number .data-pancake .manuscript-library{
         width: 49%;
@@ -962,10 +962,10 @@
         display: inline-block;
         width: 200px;
         vertical-align: top;
-        margin-right: 17px;
+        margin-right: 16px;
         margin-top: 5px;
     }
-    
+
     .manu-script-number .data-language .language-type{
         height: 110px;
         display: block;
@@ -1064,12 +1064,12 @@
         background: #061114;
         padding: 20px 0;
         text-align: center;
-    }   
+    }
     .manu-script-number .data-language .language .date {
         display: block;
         margin-top: 15px;
         height: 105px;
-        
+
     }
     .manu-script-number .data-language .language .date .dateName{
         display: block;
