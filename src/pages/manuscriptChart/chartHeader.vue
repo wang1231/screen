@@ -37,14 +37,21 @@
      methods: {
       _getUser(){
         this.$api.getUser().then(res => {
-          console.log(res.data)
           this.users.usersLeft.value = res.data.sheNei;
           this.users.usersRight.value = res.data.sheWai;
+          this.timer = setTimeout(() => {
+            this._getUser();
+          },60 * 1000)
         })
       }
      } ,
     mounted(){
       this._getUser();
+    },
+    beforeDestroy(){
+      if (this.timer){
+        clearTimeout(this.timer)
+      }
     }
   }
 </script>

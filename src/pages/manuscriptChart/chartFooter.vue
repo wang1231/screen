@@ -122,6 +122,16 @@
       this._getServer();
       this._getDownLoad();
       this._getVisit();
+      this.timer = setInterval(() => {
+        this._getServer();
+        this._getDownLoad();
+        this._getVisit();
+      },60 * 1000)
+    },
+    beforeDestroy(){
+      if (this.timer){
+        clearInterval(this.timer)
+      }
     }
   }
 </script>
@@ -129,7 +139,7 @@
 <style scoped lang="less">
   .footer {
     width: 100%;
-    margin-top: 20px;
+    margin-top: 25px;
     .footer-top {
       display: flex;
       flex-direction: row;
@@ -144,7 +154,7 @@
       }
       .footer-top-left {
         width: 920px;
-        height: 130px;
+        height: 140px;
         box-sizing: border-box;
         border: 2px solid #152a33;
         padding: 3px;
@@ -160,7 +170,7 @@
       }
       .footer-top-right {
         width: 920px;
-        height: 130px;
+        height: 140px;
         box-sizing: border-box;
         border: 1px solid #1d3322;
         padding: 3px;
@@ -329,6 +339,7 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        line-height: 36px;
         em {
           width: 5px;
           height: 5px;

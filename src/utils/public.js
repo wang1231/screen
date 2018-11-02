@@ -40,9 +40,9 @@ export function someDay(year,mouth) {
   let moreDays = ['01','03','05','07','08','10','12'];
   let lessDays = ['04','06','09','11'];
   let CNArr = [];
-  if (moreDays.indexOf(mouth)){
+  if (moreDays.indexOf(mouth) > -1){
     CNArr = cycleNumber(31);
-  } else if (lessDays.indexOf(mouth)){
+  } else if (lessDays.indexOf(mouth) > -1){
     CNArr = cycleNumber(30);
   } else {
     if (isLeapYear(year)){
@@ -54,7 +54,7 @@ export function someDay(year,mouth) {
   return CNArr
 }
 function cycleNumber(value) {
-  let CN = []
+  let CN = [];
   for (let i = 0; i < value; i++){
     CN.push(padDate(i + 1));
   }

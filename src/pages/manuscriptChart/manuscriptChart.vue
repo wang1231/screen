@@ -22,6 +22,7 @@
 
 <style scoped>
     .mainBox{
+      padding: 40px 20px 10px 20px;
       background: url('./images/bg.png');
     }
 </style>
