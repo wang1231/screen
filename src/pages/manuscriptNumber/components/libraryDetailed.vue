@@ -1,6 +1,6 @@
 <template>
     <div class="library-detailed">
-        <el-dialog title="待编库详细信息 Library detailed to be compiled" :visible.sync="propsData.visible" width="74%" :show-close="false">
+        <el-dialog title="待编库详细信息 Library detailed to be compiled" :visible.sync="propsData.visible" :show-close="false">
             <div class="main clearfix">
                 <div class="list fl">
                     <h2>实时稿件列表</h2>
@@ -78,6 +78,9 @@
 </script>
 
 <style>
+    .library-detailed .el-dialog{
+        width: 1410px;
+    }
     .library-detailed .el-dialog__header{
         background: #1d3a48;
         padding: 10px 25px;

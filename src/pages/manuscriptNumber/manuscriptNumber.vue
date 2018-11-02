@@ -2,8 +2,17 @@
     <div class="manu-script-number">
         <!-- 第一模块 -->
         <div class="data-number">
-            <span v-for="item in dataNumber" class="data">
+            <!-- <span v-for="item in dataNumber" class="data">
                 <span class="label">{{ item.label }}</span><span class="number">{{ item.value }}</span>
+            </span> -->
+            <span class="data">
+                <span class="label">{{ dataNumber[0].label }}</span><span class="number">{{ dataNumber[0].value | numberFilter }}</span>
+            </span>
+            <span class="data">
+                <span class="label">{{ dataNumber[1].label }}</span><span class="number">{{ dataNumber[1].value | numberFilter }}</span>
+            </span>
+            <span class="data">
+                <span class="label">{{ dataNumber[2].label }}</span><span class="number">{{ dataNumber[2].value }}</span>
             </span>
             <!-- 日历 -->
             <calendar-date @selectYear="selectYear" @selectMonth="selectMonth" @selectDay="selectDay"></calendar-date>
@@ -871,6 +880,13 @@
                 }
 
                 return language[value];
+            },
+            numberFilter(value){
+                let number = Number(value);
+
+                number = number.toLocaleString();
+
+                return number;
             }
         },
         computed: {
